@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html class="bootstrap-admin-vertical-centered">
+<head>
+    <title>Login page | Bootstrap 3.x Admin Theme</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" media="screen" href="css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="css/bootstrap-theme.min.css">
+
+    <!-- Bootstrap Admin Theme -->
+    <link rel="stylesheet" media="screen" href="css/bootstrap-admin-theme.css">
+
+    <!-- Custom styles -->
+    <style type="text/css">
+        .alert {
+            margin: 0 auto 20px;
+        }
+    </style>
+    <script language="javascript" type="text/javascript" src="anychat/anychat4html5.min.js" charset="GB2312"></script>
+    <script language="javascript" type="text/javascript" src="anychat/anychatsdk.js"></script>
+    <script language="javascript" type="text/javascript" src="anychat/anychatevent.js"></script>
+    <script language="javascript" type="text/javascript" src="anychat/anychatobject.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+       <script type="text/javascript" src="js/html5shiv.js"></script>
+       <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .row {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body class="bootstrap-admin-without-padding">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="row">
+            <div class="col-lg-8">
+                老师
+            </div>
+            <div class="col-lg-4">
+                我
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                老师
+            </div>
+            <div class="col-lg-4">
+                我
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                下面是其他人
+            </div>
+        </div>
+        <div class="row" id="orderpeople">
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var account = "";
+        $(document).ready(function () {
+
+            var NEED_ANYCHAT_APILEVEL = "0"; 						// 定义业务层需要的AnyChat API Level
+            var errorcode = BRAC_InitSDK(NEED_ANYCHAT_APILEVEL); 	// 初始化插件
+            if (errorcode != 0) {
+                infoDialog("请先点击<a href='http://anychat.oss-cn-hangzhou.aliyuncs.com/AnyChatWebSetup.exe'>下载</a>安装视频会诊组件然后重启浏览器");
+                return;
+            }
+            account = getUrlParam("account");
+            errorcode = BRAC_Connect("120.24.239.49", 8906);
+
+
+
+
+        });
+        function infoDialog(msg) {
+            $("#dialog_boxtitle").text("提示");
+            showDialog(msg);
+        }
+
+        function showDialog(msg) {
+            $("#dialog_boxBtnConfirm").hide();
+            $("#dialog_boxmsg").html(msg);
+            $("#dialog_box").modal('show');
+        }
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        // 客户端连接服务器，bSuccess表示是否连接成功，errorcode表示出错代码
+        function OnAnyChatConnect(bSuccess, errorcode) {
+            if (errorcode == 0) {
+                BRAC_Login("1", "老师", 0);
+            }
+            else {
+                infoDialog("视频服务器连接失败");
+            }
+        }
+    </script>
+
+
+
+
+    <div id="dialog_box" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog_boxtitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 id="dialog_boxtitle" class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="dialog_boxmsg"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="dialog_boxBtnConfirm" class="btn btn-success">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
